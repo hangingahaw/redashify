@@ -116,7 +116,7 @@ interface RedashifyResult {
 
 **No dashes in text:** LLM is not called. Returns immediately with `unchanged: true`.
 
-**All dashes already correct:** LLM is called (correctness can't be pre-judged), but `corrections` is empty and `unchanged` is `true`.
+**All dashes already correct:** LLM is called (correctness can’t be pre-judged), but `corrections` is empty and `unchanged` is `true`.
 
 ## Custom rules
 
@@ -147,7 +147,7 @@ Keep hyphens in compound modifiers and vote tallies (5-4).`,
 
 ## Design decisions
 
-**LLM over regex.** Dash correction depends on semantic context — is "10-20" a range (en dash) or a compound modifier (hyphen)? Is "--" an em dash or a typo? Regex can't answer these questions. An LLM can, given a few words of surrounding context.
+**LLM over regex.** Dash correction depends on semantic context — is “10-20” a range (en dash) or a compound modifier (hyphen)? Is “--” an em dash or a typo? Regex can’t answer these questions. An LLM can, given a few words of surrounding context.
 
 **Privacy by design.** Only short context windows around each dash are sent to the LLM — never the full document. A 10,000-word document with 5 dashes sends ~5 small context snippets, regardless of document length.
 
