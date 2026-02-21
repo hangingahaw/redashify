@@ -93,7 +93,7 @@ const result = await redashify(text, {
 | `model` | `string` | *(per provider)* | Model name. Required if no provider default. |
 | `baseURL` | `string` | — | Custom endpoint URL. Overrides provider mapping. |
 | `llm` | `(messages) => Promise<string>` | — | Custom LLM function. Overrides apiKey/provider/model. |
-| `rules` | `string` | `""` | Custom rules prepended to the system prompt |
+| `rules` | `string` | `“”` | Custom rules prepended to the system prompt |
 | `contextSize` | `number` | `50` | Characters of context on each side of a dash |
 | `batchSize` | `number` | `50` | Maximum dashes per LLM call |
 
