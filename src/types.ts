@@ -1,3 +1,8 @@
+import type { LlmOptions, Message } from "@lexstyle/llm-client";
+
+// Re-export LLM types so existing consumers don't break
+export type { Message, Provider } from "@lexstyle/llm-client";
+
 /** The valid dash characters, exported for documentation/reference */
 export const VALID_DASHES = Object.freeze(["-", "\u2013", "\u2014"] as const);
 
@@ -61,36 +66,8 @@ export interface RedashifyResult {
   unchanged: boolean;
 }
 
-/** Chat message format for the LLM function */
-export interface Message {
-  role: "system" | "user" | "assistant";
-  content: string;
-}
-
-/** Known providers with built-in base URL mapping */
-export type Provider =
-  | "openai"
-  | "anthropic"
-  | "gemini"
-  | "groq"
-  | "together"
-  | "mistral"
-  | "openrouter"
-  | "xai"
-  | "deepseek";
-
 /** Options for redashify */
-export interface RedashifyOptions {
-  /** API key for the LLM provider */
-  apiKey?: string;
-  /** LLM provider name (e.g. "openai", "groq", "together"). Maps to a known base URL. */
-  provider?: Provider;
-  /** Model name (e.g. "gpt-4o-mini", "llama-3.3-70b-versatile"). Required when using apiKey without a known provider default. */
-  model?: string;
-  /** Custom base URL for OpenAI-compatible APIs. Overrides provider mapping. */
-  baseURL?: string;
-  /** Custom LLM function: receives messages, returns the raw text response. Overrides apiKey/provider/model. */
-  llm?: (messages: Message[]) => Promise<string>;
+export interface RedashifyOptions extends LlmOptions {
   /** Characters of context on each side of a dash (default: 50) */
   contextSize?: number;
   /** Custom rules to prepend to the system prompt */

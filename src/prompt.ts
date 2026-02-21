@@ -1,4 +1,5 @@
-import type { DashContext, Message } from "./types.js";
+import type { Message } from "@lexstyle/llm-client";
+import type { DashContext } from "./types.js";
 
 /**
  * Build the messages array for a single LLM call.

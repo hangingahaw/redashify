@@ -159,7 +159,7 @@ Keep hyphens in compound modifiers and vote tallies (5-4).`,
 
 ```sh
 npm install
-npm test          # 57 tests
+npm test
 npm run typecheck
 npm run build     # ESM + CJS + .d.ts
 ```

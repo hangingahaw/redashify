@@ -1,7 +1,7 @@
-import type { DashCorrection, Message, RedashifyOptions, RedashifyResult } from "./types.js";
+import { resolveLlm } from "@lexstyle/llm-client";
+import type { DashCorrection, RedashifyOptions, RedashifyResult } from "./types.js";
 import { extractDashes } from "./extractor.js";
 import { buildMessages } from "./prompt.js";
-import { callLLM, getProviderConfig } from "./llmClient.js";
 import { applyCorrections, parseResponse } from "./replacer.js";
 
 /** Validate that a value is a non-negative integer, optionally requiring >= 1. */
@@ -9,30 +9,6 @@ function requireInt(value: number, name: string, min: number): void {
   if (!Number.isFinite(value) || value < min || Math.floor(value) !== value) {
     throw new Error(`Invalid ${name}: ${value}. Must be a finite integer >= ${min}.`);
   }
-}
-
-/** Resolve the LLM calling function from user-provided options. */
-function resolveLlm(options: RedashifyOptions): (messages: Message[]) => Promise<string> {
-  if (options.llm) {
-    if (typeof options.llm !== "function") {
-      throw new Error("`llm` option must be a function");
-    }
-    return options.llm;
-  }
-
-  if (options.apiKey) {
-    const providerConfig = options.provider ? getProviderConfig(options.provider) : undefined;
-    const model = options.model ?? providerConfig?.defaultModel;
-
-    if (!model) {
-      throw new Error("redashify requires `model` when using `apiKey` (or use a `provider` with a default model)");
-    }
-
-    const { apiKey, provider, baseURL } = options;
-    return (messages) => callLLM(messages, apiKey, model, provider, baseURL);
-  }
-
-  throw new Error("redashify requires either `apiKey` + `model`, `apiKey` + `provider`, or `llm` option");
 }
 
 /**
@@ -72,7 +48,7 @@ export async function redashify(
   const contextSize = options.contextSize ?? 50;
   requireInt(contextSize, "contextSize", 0);
 
-  const llmFn = resolveLlm(options);
+  const llmFn = resolveLlm(options, "redashify");
 
   // Extract all dashes
   const contexts = extractDashes(text, contextSize);

@@ -1,6 +1,6 @@
 {
   "name": "redashify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Context-aware dash correction powered by LLMs",
   "author": "Haihang Wang",
   "type": "module",
@@ -54,7 +54,7 @@
     "url": "https://github.com/hangingahaw/redashify/issues"
   },
   "dependencies": {
-    "openai": "^4.50.0"
+    "@lexstyle/llm-client": "^0.1.0"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
